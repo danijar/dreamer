@@ -7,8 +7,11 @@ import pathlib
 import sys
 import time
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-os.environ['MUJOCO_GL'] = 'egl'
+# Do not override environment variables if they are explicitly set
+if 'TF_CPP_MIN_LOG_LEVEL' not in os.environ:
+  os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+if 'MUJOCO_GL' not in os.environ:
+  os.environ['MUJOCO_GL'] = 'egl'
 
 import numpy as np
 import tensorflow as tf
