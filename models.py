@@ -172,5 +172,5 @@ class ActionDecoder(tools.Module):
       x = self.get(f'hout', tfkl.Dense, self._size)(x)
       dist = tools.OneHotDist(x)
     else:
-      raise NotImplementedError(dist)
+      raise NotImplementedError(self._dist)
     return dist
