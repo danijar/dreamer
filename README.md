@@ -37,7 +37,7 @@ efficiently learn a long-horizon policy.
 Get dependencies:
 
 ```
-pip3 install --user tensorflow-gpu==2.1.0
+pip3 install --user tensorflow-gpu==2.2.0
 pip3 install --user tensorflow_probability
 pip3 install --user git+git://github.com/deepmind/dm_control.git
 pip3 install --user pandas
