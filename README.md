@@ -1,5 +1,7 @@
 # Dream to Control
 
+**NOTE:** Check out the code for [DreamerV2](https://github.com/danijar/dreamerv2), which supports both Atari and DMControl environments.
+
 Fast and simple implementation of the Dreamer agent in TensorFlow 2.
 
 <img width="100%" src="https://imgur.com/x4NUHXl.gif">
