@@ -176,6 +176,7 @@ class Collect:
 
   def reset(self):
     obs = self._env.reset()
+    obs = {k: self._convert(v) for k, v in obs.items()}
     transition = obs.copy()
     transition['action'] = np.zeros(self._env.action_space.shape)
     transition['reward'] = 0.0
@@ -343,7 +344,7 @@ class RewardObs:
   def observation_space(self):
     spaces = self._env.observation_space.spaces
     assert 'reward' not in spaces
-    spaces['reward'] = gym.spaces.Box(-np.inf, np.inf, dtype=np.float32)
+    spaces['reward'] = gym.spaces.Box(-np.inf, np.inf, (), dtype=np.float32)
     return gym.spaces.Dict(spaces)
 
   def step(self, action):
