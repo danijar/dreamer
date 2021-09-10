@@ -112,8 +112,10 @@ def simulate(agent, envs, steps=0, episodes=0, state=None):
         length = np.zeros(len(envs), np.int32)
         obs = [None] * len(envs)
         agent_state = None
+        old_agent_state = None
+        old_action = None
     else:
-        step, episode, done, length, obs, agent_state = state
+        step, episode, done, length, obs, agent_state, old_agent_state, old_action = state
     while (steps and step < steps) or (episodes and episode < episodes):
         # Reset envs if necessary.
         if done.any():
@@ -123,7 +125,7 @@ def simulate(agent, envs, steps=0, episodes=0, state=None):
                 obs[index] = promise()
         # Step agents.
         obs = {k: np.stack([o[k] for o in obs]) for k in obs[0]}
-        action, agent_state = agent(obs, done, agent_state)
+        action, agent_state, old_agent_state, old_action = agent(obs, done, agent_state)
         action = np.array(action)
         assert len(action) == len(envs)
         # Step envs.
@@ -136,7 +138,7 @@ def simulate(agent, envs, steps=0, episodes=0, state=None):
         step += (done * length).sum()
         length *= (1 - done)
     # Return new state to allow resuming the simulation.
-    return (step - steps, episode - episodes, done, length, obs, agent_state)
+    return (step - steps, episode - episodes, done, length, obs, agent_state, old_agent_state, old_action)
 
 
 def count_episodes(directory):
@@ -510,7 +512,9 @@ def load_imgnet(train):
     import pickle
     name = 'train' if train else 'valid'
 
-    with open('/cns/tp-d/home/homanga/logdir/natural_{}.pkl'.format(name), 'rb') as fin:
+    # images_train. pkl and images_test.pkl to be downloaded from 
+
+    with open('images_{}.pkl'.format(name), 'rb') as fin:
         imgnet = pickle.load(fin)
 
     imgnet = np.transpose(imgnet, axes=(0, 1, 3, 4, 2))
